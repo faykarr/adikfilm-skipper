@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adikfilm URL Skipper V2 | Power Bypasser</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Adikfilm <span>Skipper V2</span></h1>
+            <p>Pilih resolusi dan episode favoritmu tanpa gangguan iklan.</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <!-- Step 1: Input URL -->
+                <div id="step-1" class="step">
+                    <div class="input-group">
+                        <input type="text" id="movieUrl" placeholder="Tempel URL Movie atau Series di sini..." autocomplete="off">
+                        <button id="checkBtn">Check Info</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Selection -->
+                <div id="step-2" class="step hidden">
+                    <h2 id="movieTitle">Judul Film</h2>
+                    <div id="selection-container">
+                        <!-- Episode Selector (for Series) -->
+                        <div id="ep-group" class="select-group hidden">
+                            <label>Pilih Episode:</label>
+                            <select id="epSelect"></select>
+                        </div>
+                        
+                        <!-- Resolution Selector -->
+                        <div id="res-group" class="select-group">
+                            <label>Pilih Resolusi:</label>
+                            <select id="resSelect"></select>
+                        </div>
+                    </div>
+                    <button id="skipBtn" class="primary-btn">Bypass & Get Link</button>
+                    <button id="backBtn" class="text-btn">Ganti URL</button>
+                </div>
+
+                <!-- Status -->
+                <div id="status" class="status-container hidden">
+                    <div class="loader"></div>
+                    <p id="statusText">Menganalisis halaman...</p>
+                </div>
+
+                <!-- Result -->
+                <div id="result" class="result-container hidden">
+                    <h3>Selesai! Ini link download Anda:</h3>
+                    <div class="link-box">
+                        <input type="text" id="finalUrl" readonly>
+                        <button id="copyBtn">Salin</button>
+                    </div>
+                    <a id="downloadBtn" href="#" target="_blank" class="download-btn">Download Sekarang</a>
+                    <div class="result-actions">
+                        <button id="backToSelectionBtn" class="text-btn">← Pilih Resolusi Lain</button>
+                        <button id="backToUrlBtn" class="text-btn">↩ Ganti URL Film</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Adikfilm URL Skipper • Rekayasa Berbasis Token</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
