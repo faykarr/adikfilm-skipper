@@ -1,13 +1,9 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api/*.js", "use": "@vercel/node" },
-    { "src": "public/**", "use": "@vercel/static" }
-  ],
   "routes": [
     { "src": "/api/info", "dest": "/api/info.js" },
     { "src": "/api/skip", "dest": "/api/skip.js" },
-    { "src": "/(.*)",      "dest": "/public/$1"   }
+    { "src": "/(.*)",     "dest": "/public/$1"   }
   ],
   "functions": {
     "api/info.js": { "memory": 1024, "maxDuration": 60 },
