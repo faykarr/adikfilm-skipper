@@ -4,6 +4,22 @@
 let infoData = null; // Menyimpan data scrape dari /api/info
 
 // ============================================================
+// Step Indicator
+// ============================================================
+function setStep(n) {
+    ['dot1','dot2','dot3'].forEach((id, i) => {
+        const dot = document.getElementById(id);
+        if (!dot) return;
+        dot.classList.remove('active','done');
+        if (i + 1 === n) dot.classList.add('active');
+        if (i + 1 < n) dot.classList.add('done');
+    });
+    document.querySelectorAll('.step-line').forEach((line, i) => {
+        line.classList.toggle('done', i + 1 < n);
+    });
+}
+
+// ============================================================
 // UI Elements
 // ============================================================
 const checkBtn    = document.getElementById('checkBtn');
@@ -32,6 +48,7 @@ checkBtn.addEventListener('click', async () => {
 
     step1.classList.add('hidden');
     setStatus('Scraping info film... (bisa 10-20 detik)');
+    setStep(1); // status loading
 
     try {
         const res = await fetch('/api/info', {
@@ -46,23 +63,23 @@ checkBtn.addEventListener('click', async () => {
         movieTitle.innerText = infoData.title;
 
         if (infoData.isSeries) {
-            // Series: tampilkan dropdown episode
             epGroup.classList.remove('hidden');
             const epLabels = Object.keys(infoData.episodes);
             epSelect.innerHTML = epLabels.map(ep => `<option value="${ep}">${ep}</option>`).join('');
             updateResDropdown();
             epSelect.onchange = updateResDropdown;
         } else {
-            // Movie: tampilkan resolusi langsung
             epGroup.classList.add('hidden');
             resSelect.innerHTML = infoData.resolutions.map(r => `<option value="${r.label}">${r.label}</option>`).join('');
         }
 
         clearStatus();
+        setStep(2);
         step2.classList.remove('hidden');
     } catch (e) {
         alert('Gagal: ' + e.message);
         step1.classList.remove('hidden');
+        setStep(1);
         clearStatus();
     }
 });
@@ -103,7 +120,8 @@ skipBtn.addEventListener('click', async () => {
 
     step2.classList.add('hidden');
     resultDiv.classList.add('hidden');
-    setStatus(`Bypass via ShrinkEarn → Token Decoder (provider: ${chosen.text})...`);
+    setStatus(`Bypass Token Decoder via ${chosen.text}...`);
+    setStep(2); // loading di step 2
 
     try {
         const res = await fetch('/api/skip', {
@@ -117,10 +135,12 @@ skipBtn.addEventListener('click', async () => {
         finalUrlInput.value = json.downloadUrl;
         downloadBtn.href = json.downloadUrl;
         clearStatus();
+        setStep(3);
         resultDiv.classList.remove('hidden');
     } catch (e) {
         alert('Skip gagal: ' + e.message);
         step2.classList.remove('hidden');
+        setStep(2);
         clearStatus();
     }
 });
@@ -145,12 +165,14 @@ backBtn.addEventListener('click', () => {
     step1.classList.remove('hidden');
     movieUrlInput.value = '';
     infoData = null;
+    setStep(1);
 });
 
 // Kembali ke pemilihan resolusi/episode
 backToSelectionBtn.addEventListener('click', () => {
     resultDiv.classList.add('hidden');
     step2.classList.remove('hidden');
+    setStep(2);
 });
 
 // Kembali ke input URL baru
@@ -160,11 +182,18 @@ backToUrlBtn.addEventListener('click', () => {
     step1.classList.remove('hidden');
     movieUrlInput.value = '';
     infoData = null;
+    setStep(1);
 });
 
 copyBtn.addEventListener('click', () => {
-    finalUrlInput.select();
-    document.execCommand('copy');
-    copyBtn.innerText = 'Tersalin!';
-    setTimeout(() => copyBtn.innerText = 'Salin', 2000);
+    navigator.clipboard.writeText(finalUrlInput.value).catch(() => {
+        finalUrlInput.select();
+        document.execCommand('copy');
+    });
+    copyBtn.style.color = '#22d3a0';
+    copyBtn.style.borderColor = '#22d3a0';
+    setTimeout(() => {
+        copyBtn.style.color = '';
+        copyBtn.style.borderColor = '';
+    }, 1500);
 });

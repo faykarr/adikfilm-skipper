@@ -1,21 +1,26 @@
 {
-  "name": "url-skipper",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "adikfilm-skipper",
+  "version": "2.0.0",
+  "description": "Bypass link download Adikfilm secara instan menggunakan reverse token method. Mendukung Movie, Series, dan Batch.",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "adikfilm",
+    "bypass",
+    "puppeteer",
+    "scraper"
+  ],
+  "author": "faykarr <github.com/faykarr>",
+  "license": "MIT",
   "dependencies": {
+    "@sparticuz/chromium": "^143.0.4",
     "axios": "^1.13.6",
     "cheerio": "^1.2.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "puppeteer": "^24.37.5",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "puppeteer-core": "^24.37.5"
   }
 }
